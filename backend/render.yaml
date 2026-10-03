@@ -1,11 +1,11 @@
 services:
   - type: web
     name: maris-fitness-backend
-    runtime: docker
+    runtime: node
     rootDir: backend
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
     plan: free
+    buildCommand: npm ci
+    startCommand: node src/server.js
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
