@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Colors are stored as "R G B" so opacity utilities work (bg-glass/20) */
+:root {
+  /* palette */
+  --cream: 255 237 185; /* FFEDB9 */
+  --sage: 151 168 122; /* 97A87A */
+  --forest: 22 28 16; /* 161C10 */
+  --brown: 62 57 41; /* 3E3929 */
+  --orange: 218 164 100; /* DAA464 */
+  --moss: 58 74 42; /* 3A4A2A */
+
+  /* semantic tokens (light) */
+  --bg: var(--cream);
+  --star: var(--sage);
+  --ink: var(--forest);
+  --accent: var(--orange);
+  --surface: var(--forest);
+  --glass: var(--sage);
+  --glass-line: var(--cream);
+}
+
+/* dark mode: ONLY colors change */
+.dark:root {
+  --bg: var(--brown);
+  --star: var(--moss);
+  --ink: var(--cream);
+  --accent: var(--orange);
+  --surface: var(--moss);
+  --glass: var(--sage);
+  --glass-line: var(--cream);
+}
+
+@layer components {
+  /* big titles: "HI, hero", "monthly recap" */
+  .text-big {
+    @apply font-mono text-4xl tracking-widest text-accent;
+  }
+  /* normal text */
+  .text-normal {
+    @apply font-mono text-sm tracking-wide text-ink;
+  }
+  /* glass cards (border/bg only; blur comes from <Glass /> below) */
+  .glass {
+    @apply rounded-3xl border border-glass-line/40 bg-glass/20 p-4;
+  }
+  /* dark sheet for login / sign up */
+  .sheet {
+    @apply rounded-t-[32px] bg-surface px-5 py-8;
+  }
+}

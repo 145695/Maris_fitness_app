@@ -1,0 +1,18 @@
+export const GOALS = [
+  { id: "G01", tag: "Fat Loss", text: "Six-pack abs" },
+  { id: "G02", tag: "Fat Loss", text: "Lose belly fat / flat stomach" },
+  { id: "G03", tag: "Fat Loss", text: "Lose over all fat" },
+  { id: "G07", tag: "Muscle", text: "Build big muscle / bulk up" },
+  { id: "G11", tag: "Muscle", text: "Bulking" },
+  { id: "G12", tag: "Muscle", text: "Get shredded / lean look" },
+  { id: "G13", tag: "Muscle", text: "Get stronger" },
+  { id: "G14", tag: "Body Transformation", text: "Full body transformation" },
+  { id: "G15", tag: "Endurance", text: "Run a 5K" },
+  { id: "G16", tag: "Endurance", text: "Run a marathon" },
+  { id: "G17", tag: "Endurance", text: "Improve stamina / endurance" },
+  { id: "G18", tag: "Posture", text: "Fix posture / relieve back pain" },
+  { id: "G19", tag: "Flexibility", text: "Do the splits / be flexible" },
+  { id: "G20", tag: "Health", text: "More energy / feel better" },
+  { id: "G22", tag: "Habits", text: "Build a daily exercise habit" },
+  { id: "G23", tag: "Mobility", text: "More mobility and better movement" },
+];

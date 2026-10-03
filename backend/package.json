@@ -1,0 +1,29 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "setup-db": "node scripts/setup-db.js",
+    "setup-db:reset": "node scripts/setup-db.js --reset",
+    "seed-demo": "node scripts/seed-demo.js",
+    "test": "node --test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.4",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.0",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.6.0",
+    "mysql2": "^3.24.4",
+    "zod": "^4.0.0"
+  }
+}

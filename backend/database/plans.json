@@ -1,0 +1,1766 @@
+[
+  {
+    "_id": "fat_loss__muscular",
+    "name": "Lean Cut Plan",
+    "goal_type": "Fat Loss",
+    "category": "Muscular",
+    "days_per_week": 5,
+    "session_minutes": {
+      "min": 120,
+      "max": 180
+    },
+    "duration_weeks": 10,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Upper Body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Lower Body"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Back"]
+      },
+      {
+        "day": 6,
+        "is_rest": false,
+        "types": ["Core", "Cardio"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Cardio", "Full body"]
+      }
+    ]
+  },
+  {
+    "_id": "fat_loss__normal",
+    "name": "Mass & Power Plan",
+    "goal_type": "Fat Loss",
+    "category": "Normal",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 90,
+      "max": 150
+    },
+    "duration_weeks": 15,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Cardio", "Upper Body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Cardio", "Lower Body"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Cardio", "Back"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Cardio", "Full body"]
+      }
+    ]
+  },
+  {
+    "_id": "fat_loss__skinny_fat",
+    "name": "physique refinment plan",
+    "goal_type": "Fat Loss",
+    "category": "Skinny Fat",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 60,
+      "max": 120
+    },
+    "duration_weeks": 17,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Upper Body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Lower Body"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Back"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Full body", "Cardio"]
+      }
+    ]
+  },
+  {
+    "_id": "fat_loss__fat",
+    "name": "Hybrid Athlete plan",
+    "goal_type": "Fat Loss",
+    "category": "Fat",
+    "days_per_week": 3,
+    "session_minutes": {
+      "min": 60,
+      "max": 120
+    },
+    "duration_weeks": 21,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Upper Body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Lower Body"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Back"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": true,
+        "types": []
+      }
+    ]
+  },
+  {
+    "_id": "muscle__muscular",
+    "name": "Flexibility & Balance Plan",
+    "goal_type": "Muscle",
+    "category": "Muscular",
+    "days_per_week": 5,
+    "session_minutes": {
+      "min": 120,
+      "max": 180
+    },
+    "duration_weeks": 12,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Upper Body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Lower Body"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Back"]
+      },
+      {
+        "day": 6,
+        "is_rest": false,
+        "types": ["Core"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Full body"]
+      }
+    ]
+  },
+  {
+    "_id": "muscle__normal",
+    "name": "Deep Streach Plan",
+    "goal_type": "Muscle",
+    "category": "Normal",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 90,
+      "max": 150
+    },
+    "duration_weeks": 16,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Upper Body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Lower Body"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Back"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Core"]
+      }
+    ]
+  },
+  {
+    "_id": "muscle__skinny_fat",
+    "name": "Longevity Plan",
+    "goal_type": "Muscle",
+    "category": "Skinny Fat",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 60,
+      "max": 120
+    },
+    "duration_weeks": 19,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Upper Body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Lower Body"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Back"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Core"]
+      }
+    ]
+  },
+  {
+    "_id": "muscle__fat",
+    "name": "Performence Habit Plan",
+    "goal_type": "Muscle",
+    "category": "Fat",
+    "days_per_week": 3,
+    "session_minutes": {
+      "min": 60,
+      "max": 120
+    },
+    "duration_weeks": 23,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Upper Body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Lower Body"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Back"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": true,
+        "types": []
+      }
+    ]
+  },
+  {
+    "_id": "body_transformation__muscular",
+    "name": "Athletic Mobility Plan",
+    "goal_type": "Body Transformation",
+    "category": "Muscular",
+    "days_per_week": 5,
+    "session_minutes": {
+      "min": 120,
+      "max": 180
+    },
+    "duration_weeks": 36,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Upper Body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Lower Body"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Back", "Cardio"]
+      },
+      {
+        "day": 6,
+        "is_rest": false,
+        "types": ["Core", "Hit"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Full body", "Cardio"]
+      }
+    ]
+  },
+  {
+    "_id": "body_transformation__normal",
+    "name": "Lean Shred Plan",
+    "goal_type": "Body Transformation",
+    "category": "Normal",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 90,
+      "max": 150
+    },
+    "duration_weeks": 52,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Upper Body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Lower Body"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Back", "Cardio"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Core", "Hit"]
+      }
+    ]
+  },
+  {
+    "_id": "body_transformation__skinny_fat",
+    "name": "Muscle Build Plan",
+    "goal_type": "Body Transformation",
+    "category": "Skinny Fat",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 60,
+      "max": 120
+    },
+    "duration_weeks": 60,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Upper Body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Lower Body"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Back", "Cardio"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Core", "Hit"]
+      }
+    ]
+  },
+  {
+    "_id": "body_transformation__fat",
+    "name": "Sculpt & Tone Plan",
+    "goal_type": "Body Transformation",
+    "category": "Fat",
+    "days_per_week": 3,
+    "session_minutes": {
+      "min": 60,
+      "max": 120
+    },
+    "duration_weeks": 73,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Upper Body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Lower Body"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Back", "Cardio"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": true,
+        "types": []
+      }
+    ]
+  },
+  {
+    "_id": "endurance__muscular",
+    "name": "Stamnia Builder plan",
+    "goal_type": "Endurance",
+    "category": "Muscular",
+    "days_per_week": 5,
+    "session_minutes": {
+      "min": 120,
+      "max": 180
+    },
+    "duration_weeks": 9,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Hit"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 6,
+        "is_rest": false,
+        "types": ["Core", "Cardio"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Cardio"]
+      }
+    ]
+  },
+  {
+    "_id": "endurance__normal",
+    "name": "Posture correction Plan",
+    "goal_type": "Endurance",
+    "category": "Normal",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 90,
+      "max": 150
+    },
+    "duration_weeks": 13,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Hit"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Core", "Cardio"]
+      }
+    ]
+  },
+  {
+    "_id": "endurance__skinny_fat",
+    "name": "Flexbility Builder Plan",
+    "goal_type": "Endurance",
+    "category": "Skinny Fat",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 60,
+      "max": 120
+    },
+    "duration_weeks": 15,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Hit"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Core", "Cardio"]
+      }
+    ]
+  },
+  {
+    "_id": "endurance__fat",
+    "name": "Maintence Health Plan",
+    "goal_type": "Endurance",
+    "category": "Fat",
+    "days_per_week": 3,
+    "session_minutes": {
+      "min": 60,
+      "max": 120
+    },
+    "duration_weeks": 18,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Hit"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": true,
+        "types": []
+      }
+    ]
+  },
+  {
+    "_id": "posture__muscular",
+    "name": "Healthy Habits Plan",
+    "goal_type": "Posture",
+    "category": "Muscular",
+    "days_per_week": 5,
+    "session_minutes": {
+      "min": 10,
+      "max": 20
+    },
+    "duration_weeks": 8,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Core", "Stretch"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 6,
+        "is_rest": false,
+        "types": ["Upper Body", "Stretch"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Core", "Stretch"]
+      }
+    ]
+  },
+  {
+    "_id": "posture__normal",
+    "name": "Mobility Builder Plan",
+    "goal_type": "Posture",
+    "category": "Normal",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 10,
+      "max": 20
+    },
+    "duration_weeks": 12,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Core", "Stretch"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Upper Body", "Stretch"]
+      }
+    ]
+  },
+  {
+    "_id": "posture__skinny_fat",
+    "name": "Cut & Tone Recomp Plan",
+    "goal_type": "Posture",
+    "category": "Skinny Fat",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 10,
+      "max": 20
+    },
+    "duration_weeks": 14,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Core", "Stretch"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Upper Body", "Stretch"]
+      }
+    ]
+  },
+  {
+    "_id": "posture__fat",
+    "name": "Lean Bulk Plan",
+    "goal_type": "Posture",
+    "category": "Fat",
+    "days_per_week": 3,
+    "session_minutes": {
+      "min": 10,
+      "max": 20
+    },
+    "duration_weeks": 17,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Core", "Stretch"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": true,
+        "types": []
+      }
+    ]
+  },
+  {
+    "_id": "flexibility__muscular",
+    "name": "Recomposition Plan",
+    "goal_type": "Flexibility",
+    "category": "Muscular",
+    "days_per_week": 5,
+    "session_minutes": {
+      "min": 10,
+      "max": 20
+    },
+    "duration_weeks": 6,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Mobility", "Stretch"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 6,
+        "is_rest": false,
+        "types": ["Mobility", "Stretch"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Stretch"]
+      }
+    ]
+  },
+  {
+    "_id": "flexibility__normal",
+    "name": "Aerobic Rebuild Plan",
+    "goal_type": "Flexibility",
+    "category": "Normal",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 10,
+      "max": 20
+    },
+    "duration_weeks": 8,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Mobility", "Stretch"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Mobility", "Stretch"]
+      }
+    ]
+  },
+  {
+    "_id": "flexibility__skinny_fat",
+    "name": "Alighnment & Core Plan",
+    "goal_type": "Flexibility",
+    "category": "Skinny Fat",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 10,
+      "max": 20
+    },
+    "duration_weeks": 9,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Mobility", "Stretch"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Mobility", "Stretch"]
+      }
+    ]
+  },
+  {
+    "_id": "flexibility__fat",
+    "name": "Stretch & Strengthen Plan",
+    "goal_type": "Flexibility",
+    "category": "Fat",
+    "days_per_week": 3,
+    "session_minutes": {
+      "min": 10,
+      "max": 20
+    },
+    "duration_weeks": 11,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Mobility", "Stretch"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": true,
+        "types": []
+      }
+    ]
+  },
+  {
+    "_id": "health__muscular",
+    "name": "Foundational health Plan",
+    "goal_type": "Health",
+    "category": "Muscular",
+    "days_per_week": 5,
+    "session_minutes": {
+      "min": 120,
+      "max": 180
+    },
+    "duration_weeks": 2,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Full body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Core", "Mobility"]
+      },
+      {
+        "day": 6,
+        "is_rest": false,
+        "types": ["Full body"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Cardio", "Stretch"]
+      }
+    ]
+  },
+  {
+    "_id": "health__normal",
+    "name": "Daily Habits Rebuild",
+    "goal_type": "Health",
+    "category": "Normal",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 90,
+      "max": 150
+    },
+    "duration_weeks": 3,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Full body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Core", "Mobility"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Full body"]
+      }
+    ]
+  },
+  {
+    "_id": "health__skinny_fat",
+    "name": "Mobility & Stability Plan",
+    "goal_type": "Health",
+    "category": "Skinny Fat",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 60,
+      "max": 120
+    },
+    "duration_weeks": 3,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Full body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Core", "Mobility"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Full body"]
+      }
+    ]
+  },
+  {
+    "_id": "health__fat",
+    "name": "Weight-loss Burn Plan",
+    "goal_type": "Health",
+    "category": "Fat",
+    "days_per_week": 3,
+    "session_minutes": {
+      "min": 60,
+      "max": 120
+    },
+    "duration_weeks": 4,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Full body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Core", "Mobility"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": true,
+        "types": []
+      }
+    ]
+  },
+  {
+    "_id": "habits__muscular",
+    "name": "Strength Foundation Plan",
+    "goal_type": "Habits",
+    "category": "Muscular",
+    "days_per_week": 5,
+    "session_minutes": {
+      "min": 120,
+      "max": 180
+    },
+    "duration_weeks": 6,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Full body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Full body"]
+      },
+      {
+        "day": 6,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Full body", "Stretch"]
+      }
+    ]
+  },
+  {
+    "_id": "habits__normal",
+    "name": "Full Transformation Plan",
+    "goal_type": "Habits",
+    "category": "Normal",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 90,
+      "max": 150
+    },
+    "duration_weeks": 9,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Full body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Full body"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Cardio"]
+      }
+    ]
+  },
+  {
+    "_id": "habits__skinny_fat",
+    "name": "Endurence Fat-loss Plan",
+    "goal_type": "Habits",
+    "category": "Skinny Fat",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 60,
+      "max": 120
+    },
+    "duration_weeks": 10,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Full body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Full body"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Cardio"]
+      }
+    ]
+  },
+  {
+    "_id": "habits__fat",
+    "name": "Posture & Mobility Foundation",
+    "goal_type": "Habits",
+    "category": "Fat",
+    "days_per_week": 3,
+    "session_minutes": {
+      "min": 60,
+      "max": 120
+    },
+    "duration_weeks": 13,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Full body"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Cardio"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Full body"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": true,
+        "types": []
+      }
+    ]
+  },
+  {
+    "_id": "mobility__muscular",
+    "name": "Gentle Flexbilituy Plan",
+    "goal_type": "Mobility",
+    "category": "Muscular",
+    "days_per_week": 5,
+    "session_minutes": {
+      "min": 30,
+      "max": 60
+    },
+    "duration_weeks": 8,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Mobility"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Mobility", "Stretch"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Mobility"]
+      },
+      {
+        "day": 6,
+        "is_rest": false,
+        "types": ["Mobility", "Stretch"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Mobility"]
+      }
+    ]
+  },
+  {
+    "_id": "mobility__normal",
+    "name": "Metabolic Health Plan",
+    "goal_type": "Mobility",
+    "category": "Normal",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 30,
+      "max": 60
+    },
+    "duration_weeks": 12,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Mobility"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Mobility", "Stretch"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Mobility"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": ["Stretch"]
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Mobility", "Stretch"]
+      }
+    ]
+  },
+  {
+    "_id": "mobility__skinny_fat",
+    "name": "Weight-loss Habits Plan",
+    "goal_type": "Mobility",
+    "category": "Skinny Fat",
+    "days_per_week": 4,
+    "session_minutes": {
+      "min": 30,
+      "max": 60
+    },
+    "duration_weeks": 14,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Mobility"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Mobility", "Stretch"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Mobility"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": false,
+        "types": ["Mobility", "Stretch"]
+      }
+    ]
+  },
+  {
+    "_id": "mobility__fat",
+    "name": "Joint-Friendly Mobility Plan",
+    "goal_type": "Mobility",
+    "category": "Fat",
+    "days_per_week": 3,
+    "session_minutes": {
+      "min": 30,
+      "max": 60
+    },
+    "duration_weeks": 17,
+    "days": [
+      {
+        "day": 1,
+        "is_rest": false,
+        "types": ["Mobility"]
+      },
+      {
+        "day": 2,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 3,
+        "is_rest": false,
+        "types": ["Mobility", "Stretch"]
+      },
+      {
+        "day": 4,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 5,
+        "is_rest": false,
+        "types": ["Mobility"]
+      },
+      {
+        "day": 6,
+        "is_rest": true,
+        "types": []
+      },
+      {
+        "day": 7,
+        "is_rest": true,
+        "types": []
+      }
+    ]
+  }
+]
