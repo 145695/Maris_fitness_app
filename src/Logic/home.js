@@ -1,7 +1,6 @@
 import { QUOTES } from "../constants/quotes";
 import { apiFetch } from "./api";
 
-// Monday = 0 ... Sunday = 6
 export function todayIndex() {
   return (new Date().getDay() + 6) % 7;
 }
@@ -18,7 +17,6 @@ export async function getUser() {
   return { name: me.person.fullName };
 }
 
-// Build a Mon-Sun boolean array for the current week from /me/streak data.
 function buildWeekFromStreak(days) {
   const byDate = new Map(days.map((d) => [d.date, d.status]));
   const week = Array(7).fill(false);
@@ -28,40 +26,43 @@ function buildWeekFromStreak(days) {
   for (let i = 0; i < 7; i++) {
     const d = new Date(monday);
     d.setDate(monday.getDate() + i);
-    const iso = toISO(d);
-    week[i] = byDate.get(iso) === "completed";
+    week[i] = byDate.get(toISO(d)) === "completed";
   }
   return week;
 }
 
 export async function getWeek() {
-  // 14 days covers the current week regardless of what day it is.
-  const data = await apiFetch("/me/streak?days=14");
-  return buildWeekFromStreak(data.days);
+  try {
+    const data = await apiFetch("/me/streak?days=14");
+    return buildWeekFromStreak(data.days);
+  } catch {
+    return Array(7).fill(false);
+  }
 }
 
 export async function getTodayStats() {
-  const me = await apiFetch("/me");
-  const today = me.today || {};
-  return {
-    sleep: {
-      value: today.sleepHours ?? 0,
-      goal: 8,
-      unit: "h",
-    },
-    water: {
-      // backend stores ml, frontend uses liters
-      value: Math.round(((today.waterMl ?? 0) / 1000) * 100) / 100,
-      goal: 2.5,
-      unit: "L",
-    },
-  };
+  try {
+    const me = await apiFetch("/me");
+    const today = me.today || {};
+    return {
+      sleep: { value: today.sleepHours ?? 0, goal: 8, unit: "h" },
+      water: {
+        value: Math.round(((today.waterMl ?? 0) / 1000) * 100) / 100,
+        goal: 2.5,
+        unit: "L",
+      },
+    };
+  } catch {
+    return {
+      sleep: { value: 0, goal: 8, unit: "h" },
+      water: { value: 0, goal: 2.5, unit: "L" },
+    };
+  }
 }
 
 export async function saveStat(type, value) {
   const clean = Math.max(0, Math.round(Number(value) * 100) / 100);
   if (!Number.isFinite(clean)) return { ok: false, error: "Invalid value." };
-
   try {
     if (type === "water") {
       await apiFetch("/me/daily", {
@@ -82,16 +83,53 @@ export async function saveStat(type, value) {
   }
 }
 
+// --- macros / food log ------------------------------------------------
+
 export async function getMacros() {
-  // Backend computes macros on POST /me/test but doesn't store them or
-  // expose a GET endpoint. Returns zeroed goals until that exists.
-  return [
-    { label: "calories", value: 0, goal: 2100, unit: "kcal" },
-    { label: "protein", value: 0, goal: 140, unit: "g" },
-    { label: "carbs", value: 0, goal: 220, unit: "g" },
-    { label: "fat", value: 0, goal: 65, unit: "g" },
-  ];
+  try {
+    const data = await apiFetch("/me/food");
+    const c = data.consumed;
+    const g = data.goal || { calories: 0, protein_g: 0, carbs_g: 0, fat_g: 0 };
+    return [
+      { label: "calories", value: c.calories, goal: g.calories, unit: "kcal" },
+      { label: "protein", value: c.protein_g, goal: g.protein_g, unit: "g" },
+      { label: "carbs", value: c.carbs_g, goal: g.carbs_g, unit: "g" },
+      { label: "fat", value: c.fat_g, goal: g.fat_g, unit: "g" },
+    ];
+  } catch {
+    return [
+      { label: "calories", value: 0, goal: 0, unit: "kcal" },
+      { label: "protein", value: 0, goal: 0, unit: "g" },
+      { label: "carbs", value: 0, goal: 0, unit: "g" },
+      { label: "fat", value: 0, goal: 0, unit: "g" },
+    ];
+  }
 }
+
+// Increment today's macros. Pass any subset:
+//   saveMeal({ calories: 500 })
+//   saveMeal({ protein_g: 30, carbs_g: 40 })
+export async function saveMeal(input) {
+  try {
+    const body = {};
+    if (input.calories != null) body.calories = Math.round(input.calories);
+    if (input.protein_g != null) body.protein_g = Math.round(input.protein_g);
+    if (input.carbs_g != null) body.carbs_g = Math.round(input.carbs_g);
+    if (input.fat_g != null) body.fat_g = Math.round(input.fat_g);
+    if (Object.keys(body).length === 0) {
+      return { ok: false, error: "Nothing to add." };
+    }
+    const data = await apiFetch("/me/food", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+    return { ok: true, consumed: data.consumed };
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
+}
+
+// --- quotes + streak helpers ------------------------------------------
 
 export function getQuote() {
   const now = new Date();
@@ -100,7 +138,6 @@ export function getQuote() {
   return QUOTES[dayOfYear % QUOTES.length];
 }
 
-// Kept for backward compat. getHomeData uses the server's streak now.
 export function computeStreak(week, today) {
   let i = week[today] ? today : today - 1;
   let streak = 0;
@@ -118,14 +155,14 @@ export function moodFromStreak(streak) {
 }
 
 export async function getHomeData() {
-  const [user, stats, macros, streakData] = await Promise.all([
-    getUser(),
+  const [user, week, stats, macros, streakData] = await Promise.all([
+    getUser().catch(() => ({ name: "" })),
+    getWeek(),
     getTodayStats(),
     getMacros(),
-    apiFetch("/me/streak?days=14"),
+    apiFetch("/me/streak?days=14").catch(() => ({ currentStreak: 0 })),
   ]);
 
-  const week = buildWeekFromStreak(streakData.days);
   const today = todayIndex();
   const streak = streakData.currentStreak ?? 0;
 

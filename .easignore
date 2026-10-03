@@ -1,0 +1,8 @@
+# Backend has nothing to do with the mobile build
+backend/
+
+# Local junk
+.expo/
+dist/
+*.log
+.DS_Store

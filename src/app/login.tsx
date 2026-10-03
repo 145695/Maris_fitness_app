@@ -3,11 +3,15 @@ import { Text } from "react-native";
 import AuthSheet from "../components/AuthSheet";
 import Background from "../components/Background";
 import { apiFetch } from "../Logic/api";
+import { setupNotifications } from "../Logic/notifications";
 
 export default function Login() {
   const router = useRouter();
 
   const handleSuccess = async () => {
+    // Fire-and-forget; don't block navigation on the permission prompt.
+    setupNotifications().catch(() => {});
+
     try {
       const me = await apiFetch("/me");
       if (me.testDone) router.replace("/home");

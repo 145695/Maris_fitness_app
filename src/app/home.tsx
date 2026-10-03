@@ -6,15 +6,26 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 import Background from "../components/Background";
 import BottomNav from "../components/BottomNav";
 import Glass from "../components/Glass";
+import MacroModal from "../components/MacroModal";
 import MoodStar, { type Mood } from "../components/MoodStar";
 import TrackModal, { type TrackType } from "../components/TrackModal";
-import { getHomeData, saveStat } from "../Logic/home";
+import { getHomeData, saveMeal, saveStat } from "../Logic/home";
 
 const WEEK_ROWS = [
   [0, 1],
   [2, 3, 4],
   [5, 6],
-]; // 2 + 3 + 2 like the design
+];
+
+const MACRO_FIELD: Record<
+  string,
+  "calories" | "protein_g" | "carbs_g" | "fat_g"
+> = {
+  calories: "calories",
+  protein: "protein_g",
+  carbs: "carbs_g",
+  fat: "fat_g",
+};
 
 function useNow() {
   const [now, setNow] = useState(new Date());
@@ -42,12 +53,16 @@ export default function Home() {
     colorScheme === "dark" ? "rgba(255,237,185,0.25)" : "rgba(22,28,16,0.2)";
   const now = useNow();
   const [tracking, setTracking] = useState<TrackType | null>(null);
+  const [macroModal, setMacroModal] = useState<{
+    label: string;
+    field: "calories" | "protein_g" | "carbs_g" | "fat_g";
+    unit: string;
+  } | null>(null);
 
   const [data, setData] = useState<Awaited<
     ReturnType<typeof getHomeData>
   > | null>(null);
 
-  // reload every time the page is shown (so new sleep/water entries appear)
   useFocusEffect(
     useCallback(() => {
       getHomeData().then(setData);
@@ -63,6 +78,7 @@ export default function Home() {
     { type: "sleep" as const, label: "sleep", ...data.stats.sleep },
     { type: "water" as const, label: "water", ...data.stats.water },
   ];
+
   const onSaveStat = async (type: TrackType, value: number) => {
     setData({
       ...data,
@@ -72,13 +88,20 @@ export default function Home() {
     await saveStat(type, value);
   };
 
+  const onSaveMacro = async (value: number) => {
+    if (!macroModal) return;
+    const field = macroModal.field;
+    setMacroModal(null);
+    await saveMeal({ [field]: value });
+    getHomeData().then(setData);
+  };
+
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 12 }}
       >
-        {/* header */}
         <View className="flex-row justify-between">
           <Text className="text-big">
             HI,{"\n"}
@@ -91,9 +114,7 @@ export default function Home() {
           </Text>
         </View>
 
-        {/* grid */}
         <View className="mt-4 h-[330px] flex-row gap-3">
-          {/* left column */}
           <View className="flex-1 gap-3">
             <Glass className="h-32">
               <Text className="text-center font-mono text-[10px] text-ink">
@@ -129,7 +150,6 @@ export default function Home() {
             </Glass>
           </View>
 
-          {/* right column */}
           <View className="gap-3" style={{ flex: 1.25 }}>
             <Glass className="flex-1">
               <Text className="text-center font-mono text-[10px] text-ink">
@@ -168,13 +188,22 @@ export default function Home() {
           </View>
         </View>
 
-        {/* macros: fills the remaining space down to the nav bar */}
         <Glass className="mt-3 min-h-[200px] flex-1">
           <Text className="mb-3 text-right font-mono text-xs text-ink">
             Today's macros
           </Text>
           {data.macros.map((m) => (
-            <View key={m.label} className="mb-3">
+            <Pressable
+              key={m.label}
+              onPress={() =>
+                setMacroModal({
+                  label: m.label,
+                  field: MACRO_FIELD[m.label] ?? "calories",
+                  unit: m.unit,
+                })
+              }
+              className="mb-3 active:opacity-70"
+            >
               <View className="flex-row justify-between">
                 <Text className="font-mono text-[10px] text-ink">
                   {m.label}
@@ -183,12 +212,11 @@ export default function Home() {
                   {m.value} / {m.goal} {m.unit}
                 </Text>
               </View>
-              <Bar value={m.value / m.goal} />
-            </View>
+              <Bar value={m.goal > 0 ? m.value / m.goal : 0} />
+            </Pressable>
           ))}
         </Glass>
       </ScrollView>
-      <BottomNav />
       <BottomNav />
 
       <TrackModal
@@ -198,6 +226,15 @@ export default function Home() {
         onSave={onSaveStat}
         onClose={() => setTracking(null)}
       />
+
+      {macroModal && (
+        <MacroModal
+          label={macroModal.label}
+          unit={macroModal.unit}
+          onSave={onSaveMacro}
+          onClose={() => setMacroModal(null)}
+        />
+      )}
     </Background>
   );
 }

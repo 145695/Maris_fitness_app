@@ -6,6 +6,7 @@ import Background from "../components/Background";
 import Blob, { BlobShape } from "../components/Blob";
 import ProgressDots from "../components/ProgressDots";
 import { GOALS } from "../constants/goals";
+import { setupNotifications } from "../Logic/notifications";
 import { saveProfile } from "../Logic/profile";
 
 type Option = { value: string; label: string };
@@ -179,6 +180,7 @@ export default function Onboarding() {
 
     if (result.ok) {
       console.log("[onboarding] success, navigating to /home");
+      setupNotifications().catch(() => {});
       router.replace("/home");
     } else {
       console.log("[onboarding] error:", result.error);
