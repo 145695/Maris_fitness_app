@@ -1,7 +1,7 @@
 services:
   - type: web
     name: maris-fitness-backend
-    env: docker
+    runtime: docker
     plan: free
     healthCheckPath: /health
     envVars:
