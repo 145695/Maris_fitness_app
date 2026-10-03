@@ -1,44 +1,15 @@
-const wait = (ms = 250) => new Promise((resolve) => setTimeout(resolve, ms));
+import { apiFetch } from "./api";
 
 export const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
 ];
 
-// month is 0-11
 export function daysInMonth(year, month) {
   return new Date(year, month + 1, 0).getDate();
 }
 
-// fixed pseudo-random numbers so the fake data doesn't change on every render
-function rand(seed) {
-  const x = Math.sin(seed * 9301 + 49297) * 233280;
-  return x - Math.floor(x);
-}
-
-/**
- * Everything the stats page needs for one month.
- *
- * days:   one entry per day, percent = share of that day's workout he finished
- *         (0-100), or null if the day hasn't happened yet
- * weeks:  4 buckets (days 1-7, 8-14, 15-21, 22-end) with average weight and
- *         total minutes trained, null while the week hasn't started
- * totals: the summary numbers
- */
 export async function getMonthStats(year, month) {
-  await wait();
-  // TODO: GET /stats?year=YYYY&month=M  -> return the same shape
-
   const now = new Date();
   const total = daysInMonth(year, month);
   const isFuture =
@@ -47,14 +18,35 @@ export async function getMonthStats(year, month) {
   const isCurrent = year === now.getFullYear() && month === now.getMonth();
   const lastDay = isFuture ? 0 : isCurrent ? now.getDate() : total;
 
+  // Pull last 90 days of workout statuses AND sleep/water.
+  let byDate = new Map();
+  let sleepByDate = new Map();
+  try {
+    const [streak, daily] = await Promise.all([
+      apiFetch("/me/streak?days=90"),
+      apiFetch("/me/daily/recent?days=90"),
+    ]);
+    byDate = new Map(streak.days.map((d) => [d.date, d.status]));
+    sleepByDate = new Map(
+      daily.days.map((d) => [d.date, d.sleepHours]),
+    );
+  } catch {
+    // fall through — return zeros
+  }
+
+  const iso = (day) =>
+    `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
   const days = Array.from({ length: total }, (_, i) => {
     const day = i + 1;
-    if (day > lastDay) return { day, percent: null };
-    const r = rand(year * 400 + month * 40 + day);
-    const trained = r > 0.3;
+    if (day > lastDay) return { day, percent: null, sleepHours: null };
+    const key = iso(day);
+    const status = byDate.get(key);
+    const sleep = sleepByDate.get(key);
     return {
       day,
-      percent: trained ? Math.round(50 + rand(day + month) * 50) : 0,
+      percent: status === "completed" ? 100 : 0,
+      sleepHours: sleep ?? null,
     };
   });
 
@@ -64,17 +56,36 @@ export async function getMonthStats(year, month) {
     const slice = days.filter(
       (d) => d.day >= from && d.day <= to && d.percent !== null,
     );
-    if (slice.length === 0)
-      return { label: `w${w + 1}`, weight: null, minutes: null };
+    if (slice.length === 0) {
+      return { label: `w${w + 1}`, sleepHours: null, minutes: null };
+    }
+
+    // Average sleep across days this week that had a sleep entry.
+    const sleeps = slice
+      .map((d) => d.sleepHours)
+      .filter((h) => h !== null && h !== undefined);
+    const avgSleep = sleeps.length
+      ? Math.round((sleeps.reduce((s, h) => s + h, 0) / sleeps.length) * 10) / 10
+      : null;
+
     return {
       label: `w${w + 1}`,
-      weight: Math.round((82 - w * 0.6 - month * 0.1) * 10) / 10,
+      sleepHours: avgSleep,
       minutes: Math.round(slice.reduce((s, d) => s + d.percent * 0.6, 0)),
     };
   });
 
   const played = days.filter((d) => d.percent !== null);
   const done = played.filter((d) => d.percent > 0);
+
+  // Overall average sleep for the month
+  const allSleeps = days
+    .map((d) => d.sleepHours)
+    .filter((h) => h !== null && h !== undefined);
+  const avgSleepMonth = allSleeps.length
+    ? Math.round((allSleeps.reduce((s, h) => s + h, 0) / allSleeps.length) * 10) / 10
+    : null;
+
   const totals = {
     workoutsDone: done.length,
     workoutsPlanned: played.length,
@@ -82,6 +93,7 @@ export async function getMonthStats(year, month) {
     avgPercent: done.length
       ? Math.round(done.reduce((s, d) => s + d.percent, 0) / done.length)
       : 0,
+    avgSleepHours: avgSleepMonth,
   };
 
   return { year, month, days, weeks, totals };

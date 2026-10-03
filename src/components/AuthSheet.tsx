@@ -1,10 +1,10 @@
 import { useState } from "react";
 import {
-    ActivityIndicator,
-    Pressable,
-    Text,
-    TextInput,
-    View,
+  ActivityIndicator,
+  Pressable,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { login, signInWithGoogle, signup } from "../Logic/auth";
@@ -90,6 +90,26 @@ export default function AuthSheet({ mode, onSuccess }: Props) {
         onChangeText={setPassword}
         onSubmitEditing={submit}
       />
+
+      {/* Primary action button — triggers submit() */}
+      <Pressable
+        onPress={submit}
+        disabled={loading}
+        className="mt-5 items-center justify-center rounded-lg bg-accent py-3 active:opacity-80"
+      >
+        <Text className="font-mono text-xs font-bold tracking-widest text-black">
+          {mode === "login" ? "LOG IN" : "SIGN UP"}
+        </Text>
+      </Pressable>
+
+      {/* Divider */}
+      <View className="mt-4 flex-row items-center gap-3">
+        <View className="h-px flex-1 bg-glass-line/20" />
+        <Text className="font-mono text-[10px] tracking-widest text-glass-line/50">
+          OR
+        </Text>
+        <View className="h-px flex-1 bg-glass-line/20" />
+      </View>
 
       <Pressable
         onPress={() => run(signInWithGoogle)}

@@ -1,66 +1,98 @@
 import { QUOTES } from "../constants/quotes";
-
-const wait = (ms = 250) => new Promise((resolve) => setTimeout(resolve, ms));
+import { apiFetch } from "./api";
 
 // Monday = 0 ... Sunday = 6
 export function todayIndex() {
   return (new Date().getDay() + 6) % 7;
 }
 
-// ---- each function below is one future API call ----
+function toISO(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
 
 export async function getUser() {
-  await wait();
-  // TODO: GET /me
-  return { name: "Maria" };
+  const me = await apiFetch("/me");
+  return { name: me.person.fullName };
 }
 
-// true = he finished that day's workout
+// Build a Mon-Sun boolean array for the current week from /me/streak data.
+function buildWeekFromStreak(days) {
+  const byDate = new Map(days.map((d) => [d.date, d.status]));
+  const week = Array(7).fill(false);
+  const now = new Date();
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - todayIndex());
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const iso = toISO(d);
+    week[i] = byDate.get(iso) === "completed";
+  }
+  return week;
+}
+
 export async function getWeek() {
-  await wait();
-  // TODO: GET /workouts/week
-  const fake = [true, true, true, false, false, false, false];
-  return fake.map((done, i) => done && i <= todayIndex());
+  // 14 days covers the current week regardless of what day it is.
+  const data = await apiFetch("/me/streak?days=14");
+  return buildWeekFromStreak(data.days);
 }
-
-// what he logged today (sleep + water)
-// Fake storage for today's entries (in memory, resets when the app restarts).
-// Sleep is the total hours slept, water is the total liters drunk today.
-let todayStats = {
-  sleep: { value: 6.5, goal: 8, unit: "h" },
-  water: { value: 1.2, goal: 2.5, unit: "L" },
-};
 
 export async function getTodayStats() {
-  await wait();
-  // TODO: GET /stats/today
+  const me = await apiFetch("/me");
+  const today = me.today || {};
   return {
-    sleep: { ...todayStats.sleep },
-    water: { ...todayStats.water },
+    sleep: {
+      value: today.sleepHours ?? 0,
+      goal: 8,
+      unit: "h",
+    },
+    water: {
+      // backend stores ml, frontend uses liters
+      value: Math.round(((today.waterMl ?? 0) / 1000) * 100) / 100,
+      goal: 2.5,
+      unit: "L",
+    },
   };
 }
 
-// type = "sleep" | "water", value = the new total for today
 export async function saveStat(type, value) {
   const clean = Math.max(0, Math.round(Number(value) * 100) / 100);
   if (!Number.isFinite(clean)) return { ok: false, error: "Invalid value." };
-  todayStats = { ...todayStats, [type]: { ...todayStats[type], value: clean } };
-  // TODO: PUT /stats/today/:type { value }   (the server should key it by date)
-  return { ok: true };
+
+  try {
+    if (type === "water") {
+      await apiFetch("/me/daily", {
+        method: "PATCH",
+        body: JSON.stringify({ waterMl: Math.round(clean * 1000) }),
+      });
+    } else if (type === "sleep") {
+      await apiFetch("/me/daily", {
+        method: "PATCH",
+        body: JSON.stringify({ sleepHours: clean }),
+      });
+    } else {
+      return { ok: false, error: "Unknown stat type." };
+    }
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
 }
-// targets come from the plan generator, "value" is what he ate so far
+
 export async function getMacros() {
-  await wait();
-  // TODO: GET /plan/macros
+  // Backend computes macros on POST /me/test but doesn't store them or
+  // expose a GET endpoint. Returns zeroed goals until that exists.
   return [
-    { label: "calories", value: 1240, goal: 2100, unit: "kcal" },
-    { label: "protein", value: 92, goal: 140, unit: "g" },
-    { label: "carbs", value: 130, goal: 220, unit: "g" },
-    { label: "fat", value: 41, goal: 65, unit: "g" },
+    { label: "calories", value: 0, goal: 2100, unit: "kcal" },
+    { label: "protein", value: 0, goal: 140, unit: "g" },
+    { label: "carbs", value: 0, goal: 220, unit: "g" },
+    { label: "fat", value: 0, goal: 65, unit: "g" },
   ];
 }
 
-// same quote all day, changes at midnight
 export function getQuote() {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
@@ -68,9 +100,7 @@ export function getQuote() {
   return QUOTES[dayOfYear % QUOTES.length];
 }
 
-// ---- pure logic (stays here even with a backend) ----
-
-// consecutive finished days ending today (or yesterday if today isn't done yet)
+// Kept for backward compat. getHomeData uses the server's streak now.
 export function computeStreak(week, today) {
   let i = week[today] ? today : today - 1;
   let streak = 0;
@@ -88,16 +118,16 @@ export function moodFromStreak(streak) {
 }
 
 export async function getHomeData() {
-  const [user, week, stats, macros] = await Promise.all([
+  const [user, stats, macros, streakData] = await Promise.all([
     getUser(),
-    getWeek(),
     getTodayStats(),
     getMacros(),
+    apiFetch("/me/streak?days=14"),
   ]);
+
+  const week = buildWeekFromStreak(streakData.days);
   const today = todayIndex();
-  // TODO: once the server tracks it, take the streak from the API
-  // (this one only counts inside the current week)
-  const streak = computeStreak(week, today);
+  const streak = streakData.currentStreak ?? 0;
 
   return {
     name: user.name,

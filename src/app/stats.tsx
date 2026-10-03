@@ -79,15 +79,13 @@ export default function Stats() {
 
   const { days, weeks, totals } = data;
 
-  // the weight chart starts a little below the lightest week so changes are visible
-  const weights = weeks
-    .map((w) => w.weight)
-    .filter((w): w is number => w !== null);
-  const lastWeight = weights.length ? weights[weights.length - 1] : null;
-  const change =
-    weights.length > 1 ? weights[weights.length - 1] - weights[0] : 0;
-  const wMin = weights.length ? Math.min(...weights) - 2 : 0;
-  const wMax = weights.length ? Math.max(...weights) + 0.5 : 1;
+  // Sleep chart range. Sleep values are usually 0-12h; keep the range
+  // tight enough that small changes are visible.
+  const sleeps = weeks
+    .map((w) => w.sleepHours)
+    .filter((h): h is number => h !== null);
+  const sMin = sleeps.length ? Math.max(0, Math.min(...sleeps) - 1) : 0;
+  const sMax = sleeps.length ? Math.max(...sleeps) + 1 : 10;
 
   const maxMinutes = Math.max(60, ...weeks.map((w) => w.minutes ?? 0));
   const hours = Math.floor(totals.minutes / 60);
@@ -124,22 +122,21 @@ export default function Stats() {
         {/* weight + time */}
         <View className="mt-3 flex-row gap-3">
           <Glass className="flex-1">
-            <Text className="font-mono text-[10px] text-ink">weight</Text>
+            <Text className="font-mono text-[10px] text-ink">sleep</Text>
             <Text className="mb-3 mt-1 font-mono text-sm text-accent">
-              {lastWeight !== null ? `${lastWeight} kg` : "-"}
-              {change !== 0 && (
-                <Text className="text-[9px] text-ink">
-                  {"  "}
-                  {change > 0 ? "+" : ""}
-                  {change.toFixed(1)}
-                </Text>
-              )}
+              {totals.avgSleepHours !== null
+                ? `${totals.avgSleepHours} h`
+                : "-"}
+              <Text className="text-[9px] text-ink">{"  "}avg / night</Text>
             </Text>
             <BarChart
               height={80}
-              min={wMin}
-              max={wMax}
-              data={weeks.map((w) => ({ value: w.weight, label: w.label }))}
+              min={sMin}
+              max={sMax}
+              data={weeks.map((w) => ({
+                value: w.sleepHours,
+                label: w.label,
+              }))}
             />
           </Glass>
 

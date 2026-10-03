@@ -80,6 +80,13 @@ const dailyDateParams = z.object({ date: isoCalendarDate });
 const dailyRecentQuerySchema = z.object({
   days: z.coerce.number().int().min(1).max(90).default(30),
 });
+// POST /me/food — increments today's macro totals.
+const foodAddSchema = z.object({
+  calories: z.number().int().min(0).max(5000).optional(),
+  protein_g: z.number().int().min(0).max(500).optional(),
+  carbs_g: z.number().int().min(0).max(1000).optional(),
+  fat_g: z.number().int().min(0).max(500).optional(),
+});
 module.exports = {
   avatarPatchSchema,
   submitTestSchema,
@@ -90,4 +97,5 @@ module.exports = {
   streakQuerySchema,
   dailyDateParams,
   dailyRecentQuerySchema,
+  foodAddSchema,
 };

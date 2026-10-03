@@ -26,10 +26,7 @@ const opts = (...labels: string[]): Option[] =>
 
 const LEVELS = opts("Low", "Moderate", "High");
 
-// ---- the 5 phases: edit questions here ----
 const STEPS: Field[][] = [
-  // 1 - about you
-  // 1 - about you
   [
     {
       key: "weight",
@@ -63,7 +60,6 @@ const STEPS: Field[][] = [
       options: opts("Male", "Female"),
     },
   ],
-  // 2 - your day
   [
     {
       key: "job",
@@ -77,7 +73,6 @@ const STEPS: Field[][] = [
       type: "multi",
       options: opts("Indoor", "Outdoor", "Gaming"),
     },
-    // in phase 2
     {
       key: "availability",
       label: "availability per day (hours)",
@@ -87,7 +82,6 @@ const STEPS: Field[][] = [
       max: 8,
     },
   ],
-  // 3 - experience
   [
     {
       key: "weightTraining",
@@ -97,9 +91,7 @@ const STEPS: Field[][] = [
     },
     { key: "cardio", label: "cardio history", type: "single", options: LEVELS },
   ],
-  // 4 - health
   [
-    // in phase 4
     {
       key: "healthIssues",
       label: "number of health issues",
@@ -110,7 +102,6 @@ const STEPS: Field[][] = [
       integer: true,
     },
   ],
-  // 5 - goal
   [
     {
       key: "goal",
@@ -125,7 +116,6 @@ const SHAPES: BlobShape[] = ["a", "b", "c"];
 
 type Answers = Record<string, string | string[]>;
 
-// returns a message, or null if OK (empty is not an error yet, it just isn't valid)
 function getError(f: Field, v: string | string[] | undefined): string | null {
   if (f.type !== "number") return null;
   const raw = ((v as string) ?? "").trim();
@@ -153,6 +143,7 @@ export default function Onboarding() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
   const scrollRef = useRef<ScrollView>(null);
 
   const fields = STEPS[step];
@@ -179,10 +170,20 @@ export default function Onboarding() {
   const next = async () => {
     if (!valid || saving) return;
     if (!last) return setStep(step + 1);
+
+    setError("");
     setSaving(true);
+    console.log("[onboarding] submitting", answers);
     const result = await saveProfile(answers);
     setSaving(false);
-    if (result.ok) router.replace("/home");
+
+    if (result.ok) {
+      console.log("[onboarding] success, navigating to /home");
+      router.replace("/home");
+    } else {
+      console.log("[onboarding] error:", result.error);
+      setError(result.error ?? "Something went wrong. Try again.");
+    }
   };
 
   return (
@@ -257,6 +258,12 @@ export default function Onboarding() {
           </View>
         ))}
       </ScrollView>
+
+      {!!error && (
+        <Text className="mb-2 text-center font-mono text-[11px] text-accent">
+          {error}
+        </Text>
+      )}
 
       {step > 0 && (
         <Pressable

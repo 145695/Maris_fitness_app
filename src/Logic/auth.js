@@ -1,43 +1,66 @@
-// All auth logic lives here. Right now it's fake (no server yet).
-// Every function returns { ok: true, ... } or { ok: false, error: "message" }.
+import { apiFetch, clearTokens, setTokens } from "./api";
 
-const wait = (ms = 600) => new Promise((resolve) => setTimeout(resolve, ms));
-
-/**
- * @param {string} username
- * @param {string} password
- */
 export async function login(username, password) {
   if (!username.trim() || !password) {
     return { ok: false, error: "Enter your user name and password." };
   }
-  await wait();
-  // TODO: POST to your Node API, e.g. fetch(`${API_URL}/auth/login`, ...)
-  // TODO: save the returned token (expo-secure-store)
-  return { ok: true, user: { username } };
+  try {
+    const data = await apiFetch(
+      "/auth/login",
+      {
+        method: "POST",
+        body: JSON.stringify({ username: username.trim(), password }),
+      },
+      false, // don't retry login
+    );
+    await setTokens(data.tokens);
+    return { ok: true, user: data.user };
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
 }
 
-/**
- * @param {string} username
- * @param {string} password
- */
-export async function signup(username, password) {
+export async function signup(username, password, fullName, timezone) {
   if (!username.trim()) return { ok: false, error: "Choose a user name." };
   if (password.length < 6) {
     return { ok: false, error: "Password needs at least 6 characters." };
   }
-  await wait();
-  // TODO: POST to /auth/signup
-  return { ok: true, user: { username } };
+  try {
+    const data = await apiFetch(
+      "/auth/register",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          username: username.trim(),
+          password,
+          fullName: fullName || username.trim(),
+          timezone: timezone || "UTC",
+        }),
+      },
+      false,
+    );
+    if (data.tokens) {
+      await setTokens(data.tokens);
+      return { ok: true, user: data.user };
+    }
+    // register didn't return tokens — log in
+    return login(username, password);
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
 }
 
 export async function signInWithGoogle() {
-  await wait();
-  // TODO: expo-auth-session / Google sign-in
-  return { ok: true, user: { username: "google-user" } };
+  // Not implemented on the backend.
+  return { ok: false, error: "Google sign-in is not available yet." };
 }
 
 export async function logout() {
-  // TODO: delete the saved token
+  try {
+    await apiFetch("/auth/logout", { method: "POST" }, false);
+  } catch {
+    // ignore — token may already be invalid
+  }
+  await clearTokens();
   return { ok: true };
 }

@@ -1,41 +1,45 @@
-const wait = (ms = 600) => new Promise((resolve) => setTimeout(resolve, ms));
+import { apiFetch } from "./api";
 
-// answers comes from the onboarding screen (everything is a string / array of strings)
-const RANGES = {
-  weightKg: [20, 300],
-  heightCm: [100, 250],
-  age: [13, 100],
-  availabilityHours: [0.5, 8],
-  healthIssues: [0, 20],
-};
-
-function validate(payload) {
-  for (const [key, [min, max]] of Object.entries(RANGES)) {
-    const n = payload[key];
-    if (!Number.isFinite(n) || n < min || n > max) {
-      return `${key} must be between ${min} and ${max}`;
-    }
-  }
-  return null;
+function ageToBirthDate(age) {
+  const year = new Date().getFullYear() - age;
+  return `${year}-01-01`;
 }
+
+// "light movement" -> "Light Movement", "high" -> "High"
+function titleCase(s) {
+  return String(s).replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 export async function saveProfile(answers) {
+  const age = Number(answers.age);
+  if (!Number.isFinite(age) || age < 13 || age > 100) {
+    return { ok: false, error: "age must be between 13 and 100" };
+  }
+
   const payload = {
-    weightKg: Number(answers.weight),
+    birthDate: ageToBirthDate(age),
     heightCm: Number(answers.height),
-    age: Number(answers.age),
-    gender: answers.gender,
-    jobType: answers.job,
-    availabilityHours: Number(answers.availability),
-    activities: answers.activities, // ["indoor", "gaming"]
-    weightTraining: answers.weightTraining,
-    cardio: answers.cardio,
-    healthIssues: Number(answers.healthIssues),
-    goalId: answers.goal, // "G03"
+    weightKg: Number(answers.weight),
+    jobType: titleCase(answers.job),
+    weightTraining: titleCase(answers.weightTraining),
+    cardioHistory: titleCase(answers.cardio),
+    availabilityHoursPerDay: Number(answers.availability),
+    healthIssueCount: Number(answers.healthIssues),
+    goalId: answers.goal,
+    gender: String(answers.gender).toLowerCase(),
   };
-  const problem = validate(payload);
-  if (problem) return { ok: false, error: problem };
-  await wait();
-  // TODO: POST payload to your Node API (e.g. /profile)
-  console.log("profile", payload);
-  return { ok: true };
+
+  console.log("[profile] POST /me/test", payload);
+
+  try {
+    const data = await apiFetch("/me/test", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    });
+    console.log("[profile] success, plan:", data.plan?.name);
+    return { ok: true, plan: data.plan, macros: data.macros };
+  } catch (err) {
+    console.log("[profile] failed:", err.status, err.message);
+    return { ok: false, error: err.message, status: err.status };
+  }
 }

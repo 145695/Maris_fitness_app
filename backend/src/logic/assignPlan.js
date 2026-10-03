@@ -14,16 +14,12 @@ const { selectPlan } = require("./planSelector");
 const { buildAdjustedPlan } = require("./adjustPlan");
 const { calculateMacros } = require("./macros");
 const { ageFromBirthDate } = require("../utils/age");
-const { badRequest, notFound, conflict } = require("../utils/errors");
 const { todayInTimezone, addDays } = require("../utils/dates");
+const { badRequest, notFound, conflict } = require("../utils/errors");
+
 // Generated plan documents live in this Mongo collection. Templates live in
 // "plans", the exercise pool in "exercises".
 const MONGO_PLAN_COLLECTION = "user_plans";
-
-// "Today" in the person's timezone as YYYY-MM-DD.
-// 'en-CA' formats as ISO YYYY-MM-DD, which is what MySQL DATE accepts.
-
-// YYYY-MM-DD + N days -> YYYY-MM-DD. Pure UTC math, no DST surprises.
 
 async function assignPlan({ personId, inputs }) {
   // ---- 1. Load the person + the goal they picked ------------------------
@@ -71,8 +67,7 @@ async function assignPlan({ personId, inputs }) {
   const template = await selectPlan(mongoDb, person.goal_type, category);
 
   // ---- 5. Build the adjusted plan (template + exercises) ---------------
-  // seed = personId, so re-generating gives the same exercise picks. The doc
-  // is then stored, so subsequent reads never re-run this anyway.
+  // seed = personId, so re-generating gives the same exercise picks.
   const adjusted = await buildAdjustedPlan(mongoDb, template, {
     age,
     availabilityHoursPerDay: inputs.availabilityHoursPerDay,
@@ -87,7 +82,18 @@ async function assignPlan({ personId, inputs }) {
       ? addDays(startedAt, adjusted.duration_weeks * 7)
       : null;
 
-  // ---- 6. Persist the generated plan in Mongo (first) -------------------
+  // ---- 6. Compute macros (stored with the plan) ------------------------
+  // This must run BEFORE the Mongo insert so the doc carries the goals.
+  const macros = calculateMacros({
+    weightKg: inputs.weightKg,
+    heightCm: inputs.heightCm,
+    age,
+    gender: inputs.gender,
+    daysPerWeek: adjusted.adjusted_days_per_week,
+    goalType: person.goal_type,
+  });
+
+  // ---- 7. Persist the generated plan in Mongo (first) ------------------
   const planDoc = {
     person_id: personId,
     template_plan_id: template._id,
@@ -97,14 +103,15 @@ async function assignPlan({ personId, inputs }) {
     generated_at: new Date(),
     started_at: startedAt,
     ends_at: endsAt,
-    ...adjusted, // plan_id (== template id), plan_name, days, etc.
+    macros, // <-- stored so GET /me/food can return goals
+    ...adjusted,
   };
   const insert = await mongoDb
     .collection(MONGO_PLAN_COLLECTION)
     .insertOne(planDoc);
   const mongoPlanId = insert.insertedId.toString();
 
-  // ---- 7. MySQL writes, all-or-nothing ---------------------------------
+  // ---- 8. MySQL writes, all-or-nothing ---------------------------------
   const conn = await pool.getConnection();
   try {
     await conn.beginTransaction();
@@ -192,16 +199,7 @@ async function assignPlan({ personId, inputs }) {
     conn.release();
   }
 
-  // ---- 8. Macros (not persisted — see the gender note) -----------------
-  const macros = calculateMacros({
-    weightKg: inputs.weightKg,
-    heightCm: inputs.heightCm,
-    age,
-    gender: inputs.gender,
-    daysPerWeek: adjusted.adjusted_days_per_week,
-    goalType: person.goal_type,
-  });
-
+  // ---- 9. Return the plan + macros -------------------------------------
   return {
     plan: {
       id: mongoPlanId,

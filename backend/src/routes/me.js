@@ -4,7 +4,7 @@
 const { Router } = require("express");
 const { ObjectId } = require("mongodb");
 const rateLimit = require("express-rate-limit");
-
+const { getFoodLog, addFood } = require("../logic/foodLogs");
 const pool = require("../db/mysql");
 const { getMongo } = require("../db/mongo");
 const validate = require("../middleware/validate");
@@ -21,6 +21,7 @@ const {
   dailyDateParams,
   dailyRecentQuerySchema,
   streakQuerySchema,
+  foodAddSchema,
 } = require("../utils/profileSchemas");
 
 const {
@@ -55,9 +56,7 @@ const writeLimit = rateLimit({
   windowMs: 60_000,
   max: 60,
   keyGenerator: (req) =>
-    req.user?.id
-      ? `u:${req.user.id}`
-      : `ip:${ipKeyGenerator(req.ip)}`,
+    req.user?.id ? `u:${req.user.id}` : `ip:${ipKeyGenerator(req.ip)}`,
   standardHeaders: true,
   legacyHeaders: false,
 });
@@ -657,5 +656,70 @@ router.get(
     });
   },
 );
+// --- macros / food log ------------------------------------------------
 
+// GET /me/food -> today's consumed + today's goals.
+// Goals come from the plan's stored macros (see assignPlan).
+router.get("/food", async (req, res) => {
+  const me = await loadMe(req.user.id);
+  if (!me) throw notFound("Profile not found");
+
+  const today = todayInTimezone(me.timezone);
+
+  const active = await getActivePlan(req.user.personId, me.timezone);
+  let goal = null;
+  if (active) {
+    const mongoDb = await getMongo();
+    const planDoc = await mongoDb.collection("user_plans").findOne({
+      _id: new ObjectId(active.mongo_plan_id),
+    });
+    if (planDoc?.macros) goal = planDoc.macros;
+  }
+
+  const log = await getFoodLog(req.user.personId, today);
+
+  res.json({
+    date: today,
+    consumed: {
+      calories: log?.calories ?? 0,
+      protein_g: log?.protein_g ?? 0,
+      carbs_g: log?.carbs_g ?? 0,
+      fat_g: log?.fat_g ?? 0,
+    },
+    goal,
+  });
+});
+
+// POST /me/food -> increment today's totals.
+router.post(
+  "/food",
+  writeLimit,
+  validate({ body: foodAddSchema }),
+  async (req, res) => {
+    const me = await loadMe(req.user.id);
+    if (!me) throw notFound("Profile not found");
+
+    const today = todayInTimezone(me.timezone);
+    const { calories, protein_g, carbs_g, fat_g } = req.validated.body;
+
+    const log = await addFood({
+      personId: req.user.personId,
+      date: today,
+      calories,
+      proteinG: protein_g,
+      carbsG: carbs_g,
+      fatG: fat_g,
+    });
+
+    res.json({
+      date: today,
+      consumed: {
+        calories: log.calories,
+        protein_g: log.protein_g,
+        carbs_g: log.carbs_g,
+        fat_g: log.fat_g,
+      },
+    });
+  },
+);
 module.exports = router;

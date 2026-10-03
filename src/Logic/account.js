@@ -1,27 +1,38 @@
+import { apiFetch } from "./api";
 import { logout as authLogout } from "./auth";
 
-const wait = (ms = 200) => new Promise((resolve) => setTimeout(resolve, ms));
-
-// Fake data. It lives in memory, so it survives tab switches but not an app restart.
-let account = {
-  name: "Maria",
-  avatar: { shape: "classic", color: "sage" },
-};
+const DEFAULT_AVATAR = { shape: "classic", color: "sage" };
 
 export async function getAccount() {
-  await wait();
-  // TODO: GET /me
-  return { ...account, avatar: { ...account.avatar } };
+  try {
+    const me = await apiFetch("/me");
+    return {
+      name: me.person.fullName,
+      avatar: {
+        shape: me.person.avatarShape || DEFAULT_AVATAR.shape,
+        color: me.person.avatarColor || DEFAULT_AVATAR.color,
+      },
+    };
+  } catch (err) {
+    return { name: "", avatar: { ...DEFAULT_AVATAR }, error: err.message };
+  }
 }
 
-// avatar = { shape, color }
 export async function saveAvatar(avatar) {
-  account = { ...account, avatar: { ...avatar } };
-  // TODO: PATCH /me { avatar }
-  return { ok: true };
+  try {
+    await apiFetch("/me/avatar", {
+      method: "PATCH",
+      body: JSON.stringify({
+        avatarShape: avatar.shape,
+        avatarColor: avatar.color,
+      }),
+    });
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
 }
 
 export async function logout() {
-  // TODO: also clear any cached user data
   return authLogout();
 }
